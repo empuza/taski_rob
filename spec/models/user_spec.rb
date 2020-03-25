@@ -11,4 +11,8 @@ RSpec.describe User, type: :model do
       it { should validate_uniqueness_of(:email) }
     end
   end
+
+  describe 'association' do
+    it { should have_many(:tasks).dependent(:destroy) }
+  end
 end

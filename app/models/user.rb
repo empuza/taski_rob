@@ -1,8 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
+  has_many :tasks, dependent: :destroy
 
-  validates_presence_of :username
-  validates_presence_of :email
-  validates_presence_of :password_digest
+  validates :username, :email, :password_digest, presence: true
   validates_uniqueness_of :email
 end
