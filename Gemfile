@@ -34,6 +34,8 @@ group :test do
   gem 'faker', '~> 2.10.2'
   # Simple one-liner tests for common Rails functionality
   gem 'shoulda-matchers', '~> 3.1.3'
+  # Code coverage analysis tool for Ruby
+  gem 'simplecov', '~> 0.18.5'
 end
 
 group :development do
