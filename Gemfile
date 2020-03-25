@@ -23,10 +23,15 @@ gem 'rack-cors', '~> 1.1.1'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  # Fixtures replacement with a straightforward definition syntax
-  gem 'factory_bot_rails', '~> 4.8'
   # RSpec testing framework
   gem 'rspec-rails', '~> 3.7'
+end
+
+group :test do
+  # Fixtures replacement with a straightforward definition syntax
+  gem 'factory_bot_rails', '~> 4.8'
+  # A library for generating fake data such as names, addresses, and phone numbers.
+  gem 'faker', '~> 2.10.2'
   # Simple one-liner tests for common Rails functionality
   gem 'shoulda-matchers', '~> 3.1.3'
 end
