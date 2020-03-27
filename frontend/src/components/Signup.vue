@@ -103,16 +103,17 @@ export default {
         this.signupFailed(response)
         return
       }
-      localStorage.csrf = response.data.csrf
-      localStorage.signedIn = true
-      this.error = ''
-      this.notice = 'Activation link was sent to your email. Check your inbox.'
-      this.$router.replace('/tasks')
+      this.$http.plain.get('/me')
+        .then(meResponse => {
+          this.$store.commit('setCurrentUserWithoutLogin', { currentUser: meResponse.data, csrf: response.data.csrf })
+          this.error = ''
+          this.notice = 'Activation link was sent to your email. Check your inbox.'
+        })
+        .catch(error => this.signinFailed(error))
     },
     signupFailed (error) {
       this.error = (error.response && error.response.data && error.response.data.error) || 'Something went wrong'
-      delete localStorage.csrf
-      delete localStorage.signedIn
+      this.$store.commit('unsetCurrentUser')
     }
   }
 }

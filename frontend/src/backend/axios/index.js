@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { store } from './../../store'
 
 const API_URL = 'http://localhost:3000'
 
@@ -23,7 +24,7 @@ securedAxiosInstance.interceptors.request.use(config => {
   if (method !== 'OPTIONS' && method !== 'GET') {
     config.headers = {
       ...config.headers,
-      'X-CSRF-TOKEN': localStorage.csrf
+      'X-CSRF-TOKEN': store.state.csrf
     }
   }
   return config
@@ -31,19 +32,15 @@ securedAxiosInstance.interceptors.request.use(config => {
 
 securedAxiosInstance.interceptors.response.use(null, error => {
   if (error.response && error.response.config && error.response.status === 401) {
-    // In case 401 is caused by expired access cookie - we'll do refresh request
-    return plainAxiosInstance.post('/refresh', {}, { headers: { 'X-CSRF-TOKEN': localStorage.csrf } })
+    return plainAxiosInstance.post('/refresh', {}, { headers: { 'X-CSRF-TOKEN': store.state.csrf } })
       .then(response => {
-        localStorage.csrf = response.data.csrf
-        localStorage.signedIn = true
-        // And after successful refresh - repeat the original request
+        plainAxiosInstance.get('/me')
+          .then(meResponse => store.commit('setCurrentUser', { currentUser: meResponse.data, csrf: response.data.csrf }))
         let retryConfig = error.response.config
-        retryConfig.headers['X-CSRF-TOKEN'] = localStorage.csrf
+        retryConfig.headers['X-CSRF-TOKEN'] = response.data.csrf
         return plainAxiosInstance.request(retryConfig)
       }).catch(error => {
-        delete localStorage.csrf
-        delete localStorage.signedIn
-        // redirect to signin in case refresh request fails
+        store.commit('unsetCurrentUser')
         location.replace('/')
         return Promise.reject(error)
       })
