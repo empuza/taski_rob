@@ -17,4 +17,10 @@ Rails.application.routes.draw do
       patch ':token', action: :update
     end
   end
+
+  resources :activation, only: [:create] do
+    collection do
+      patch ':token', action: :update
+    end
+  end
 end

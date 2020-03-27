@@ -11,4 +11,15 @@ RSpec.describe UserMailer, type: :mailer do
       expect(mail.from).to eq(['from@example.com'])
     end
   end
+
+  describe 'activate account notification' do
+    let(:user) { create(:user) }
+    let(:mail) { UserMailer.activate_account(user) }
+
+    it 'renders the headers' do
+      expect(mail.subject).to eq('Account activation')
+      expect(mail.to).to eq([user.email])
+      expect(mail.from).to eq(['from@example.com'])
+    end
+  end
 end
