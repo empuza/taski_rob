@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Signin from '@/components/Signin'
 import Signup from '@/components/Signup'
 import Tasks from '@/components/Tasks'
+import ForgotPassword from '@/components/ForgotPassword'
+import ResetPassword from '@/components/ResetPassword'
 
 Vue.use(Router)
 
@@ -23,6 +25,16 @@ export default new Router({
       path: '/tasks',
       name: 'Tasks',
       component: Tasks
+    },
+    {
+      path: '/forgot_password',
+      name: 'ForgotPassword',
+      component: ForgotPassword
+    },
+    {
+      path: '/password_resets/:token',
+      name: 'ResetPassword',
+      component: ResetPassword
     }
   ]
 })

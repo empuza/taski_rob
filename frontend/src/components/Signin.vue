@@ -42,6 +42,12 @@
             <b-link to="/signup">Sign Up</b-link>
           </b-col>
         </b-form-row>
+
+        <b-form-row style="margin: 10px 10px">
+          <b-col align-self="center">
+            <b-link to="/forgot_password">Forgot Password?</b-link>
+          </b-col>
+        </b-form-row>
       </b-form>
     </b-container>
   </div>
