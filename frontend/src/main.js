@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueAxios from 'vue-axios'
 import { securedAxiosInstance, plainAxiosInstance } from './backend/axios'
+import moment from 'moment'
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
@@ -16,6 +17,7 @@ Vue.use(VueAxios, {
   secured: securedAxiosInstance,
   plain: plainAxiosInstance
 })
+Vue.prototype.moment = moment
 
 /* eslint-disable no-new */
 new Vue({

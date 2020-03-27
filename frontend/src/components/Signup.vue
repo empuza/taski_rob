@@ -88,7 +88,7 @@ export default {
     }
   },
   methods: {
-    signup() {
+    signup () {
       this.$http.plain.post('/signup', {
         username: this.username,
         email: this.email,
@@ -98,7 +98,7 @@ export default {
         .then(response => this.signupSuccessful(response))
         .catch(error => this.signupFailed(error))
     },
-    signupSuccessful(response) {
+    signupSuccessful (response) {
       if (!response.data.csrf) {
         this.signupFailed(response)
         return
@@ -109,7 +109,7 @@ export default {
       this.notice = 'Activation link was sent to your email. Check your inbox.'
       this.$router.replace('/tasks')
     },
-    signupFailed(error) {
+    signupFailed (error) {
       this.error = (error.response && error.response.data && error.response.data.error) || 'Something went wrong'
       delete localStorage.csrf
       delete localStorage.signedIn
