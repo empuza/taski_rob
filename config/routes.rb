@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post 'signin', controller: :signin, action: :create
   delete 'signin', controller: :signin, action: :destroy
   post 'refresh', controller: :refresh, action: :create
+  get 'me', controller: :users, action: :me
 
   namespace :api do
     resources :tasks, only: %i[index create update destroy]

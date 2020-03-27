@@ -8,7 +8,7 @@ RSpec.describe User, type: :model do
 
     context 'of uniqueness' do
       let!(:first_user) { create(:user) }
-      it { should validate_uniqueness_of(:email) }
+      it { should validate_uniqueness_of(:email).ignoring_case_sensitivity }
     end
   end
 
