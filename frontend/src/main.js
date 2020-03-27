@@ -7,18 +7,22 @@ import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueAxios from 'vue-axios'
-import axios from './backend/axios'
+import { securedAxiosInstance, plainAxiosInstance } from './backend/axios'
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
-Vue.use(VueAxios, axios)
+Vue.use(VueAxios, {
+  secured: securedAxiosInstance,
+  plain: plainAxiosInstance
+})
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  axios,
+  securedAxiosInstance,
+  plainAxiosInstance,
   components: { App },
   template: '<App/>'
 })
