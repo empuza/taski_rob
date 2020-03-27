@@ -7,6 +7,7 @@
             <img src="../assets/taskirób-logo.png" alt="TaskiRób">
           </b-navbar-brand>
           <b-navbar-nav class="ml-auto">
+            <b-nav-text right><div v-if="signedIn()">Welcome {{ this.$store.state.currentUser.username }}</div></b-nav-text>
             <b-nav-item right><router-link to="/tasks" v-if="signedIn()">Tasks</router-link></b-nav-item>
             <b-nav-item right><router-link to="/" v-if="!signedIn()">Sign In</router-link></b-nav-item>
             <b-nav-item right><router-link to="/signup" v-if="!signedIn()">Sign Up</router-link></b-nav-item>
@@ -26,13 +27,12 @@ export default {
       this.error = (error.response && error.response.data && error.response.data.error) || text
     },
     signedIn () {
-      return localStorage.signedIn
+      return this.$store.state.signedIn
     },
     signedOut () {
+      this.$store.commit('unsetCurrentUser')
       this.$http.secured.delete('/signin')
         .then(response => {
-          delete localStorage.csrf
-          delete localStorage.signedIn
           this.$router.replace('/')
         })
         .catch(error => this.setError(error, 'Cannot sign out'))
