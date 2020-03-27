@@ -6,6 +6,7 @@ import Tasks from '@/components/Tasks'
 import ForgotPassword from '@/components/ForgotPassword'
 import ResetPassword from '@/components/ResetPassword'
 import Activation from '@/components/Activation'
+import ChangePassword from '@/components/ChangePassword'
 
 Vue.use(Router)
 
@@ -41,6 +42,11 @@ export default new Router({
       path: '/activate_account/:token',
       name: 'Activation',
       component: Activation
+    },
+    {
+      path: '/change_password',
+      name: 'ChangePassword',
+      component: ChangePassword
     }
   ]
 })

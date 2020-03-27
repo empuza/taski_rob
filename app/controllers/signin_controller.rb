@@ -15,17 +15,15 @@ class SigninController < ApplicationController
     elsif !user.activated && user.activation_token_expires_at && user.activation_token_expires_at > Time.now
       not_activated_but_token_exists
     elsif !user.activated && user.activation_token_expires_at && user.activation_token_expires_at < Time.now
-      user.clear_activation_token!
-      user.generate_activation_token!
-      UserMailer.activate_account(user).deliver_now
-      not_activated_and_token_expired
+      clear_and_generate_activation_token(user)
     else
       not_authorized
     end
   end
 
   def destroy
-    session = JWTSessions::Session.new(payload: payload)
+    session = JWTSessions::Session.new(payload: payload,
+                                       namespace: "user_#{payload['user_id']}")
     session.flush_by_access_payload
     render json: :ok
   end
@@ -45,5 +43,12 @@ class SigninController < ApplicationController
   def not_activated_and_token_expired
     render json: { error: 'Account not activated. Account activation link was sent again to your email.' },
            status: :not_acceptable
+  end
+
+  def clear_and_generate_activation_token(user)
+    user.clear_activation_token!
+    user.generate_activation_token!
+    UserMailer.activate_account(user).deliver_now
+    not_activated_and_token_expired
   end
 end
