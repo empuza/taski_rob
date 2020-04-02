@@ -10,7 +10,6 @@ class ActivationController < ApplicationController
 
   def update
     user = User.find_by(activation_token: params[:token])
-    puts user
     user.update!(activated: true)
     user.clear_activation_token!
     render json: :ok
