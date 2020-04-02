@@ -32,7 +32,8 @@ RSpec.describe RefreshController, type: :controller do
       before do
         payload = { user_id: user.id }
         session = JWTSessions::Session.new(payload: payload,
-                                           refresh_by_access_allowed: true)
+                                           refresh_by_access_allowed: true,
+                                           namespace: "user_#{user.id}")
         @tokens = session.login
       end
 
