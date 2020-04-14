@@ -4,8 +4,8 @@ module Api
     before_action :set_task, only: %i[update destroy]
 
     def index
-      @tasks = current_user.tasks.where(done: false)
-      @doneTasks = current_user.tasks.where(done: true)
+      @tasks = current_user.tasks.tasks_by_status(false)
+      @doneTasks = current_user.tasks.tasks_by_status(true)
       render json: { tasks: @tasks, doneTasks: @doneTasks }
     end
 
