@@ -9,7 +9,16 @@
           <b-navbar-nav class="ml-auto">
             <b-nav-text right><div v-if="signedIn()">Welcome {{ this.$store.state.currentUser.username }}</div></b-nav-text>
             <b-nav-item right><router-link to="/tasks" v-if="signedIn()">Tasks</router-link></b-nav-item>
-            <b-nav-item right><router-link to="/change_password" v-if="signedIn()">Settings</router-link></b-nav-item>
+            <b-nav-item-dropdown
+              id="settings-dropdown"
+              text="Settings"
+              class="dropdown"
+              toggle-text="dropdown"
+              right
+            >
+              <b-nav-item right><router-link to="/user_details" v-if="signedIn()" class="navigation-links">User details</router-link></b-nav-item>
+              <b-nav-item right><router-link to="/change_password" v-if="signedIn()" class="navigation-links">Change password</router-link></b-nav-item>
+            </b-nav-item-dropdown>
             <b-nav-item right><router-link to="/" v-if="!signedIn()">Sign In</router-link></b-nav-item>
             <b-nav-item right><router-link to="/signup" v-if="!signedIn()">Sign Up</router-link></b-nav-item>
             <b-nav-item right><a href="#" @click.prevent="signedOut" v-if="signedIn()">Sign out</a></b-nav-item>
@@ -51,4 +60,9 @@ export default {
     font-weight: bold;
     font-size: large;
   }
+
+  .navigation-links {
+    color: #2c3e50;
+  }
+
 </style>
