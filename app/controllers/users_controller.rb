@@ -2,9 +2,8 @@ class UsersController < ApplicationController
   before_action :authorize_access_request!
 
   def update
-    puts 'trololo'
     if current_user.update(user_params)
-      render json: current_user
+      render json: current_user, only: %i[id username email]
     else
       render json: current_user.errors, status: :unprocessable_entity
     end
