@@ -19,7 +19,7 @@ module Api
     end
 
     def update
-      if @task.update(done: params['task']['done'])
+      if @task.update(task_params)
         render json: @task
       else
         render json: @task.errors, status: :unprocessable_entity
