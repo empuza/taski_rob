@@ -66,13 +66,14 @@ RSpec.describe Api::TasksController, type: :controller do
   describe 'PUT #update' do
     let!(:task) { create(:task, user: user) }
     context 'with valid params' do
-      let(:new_done_attribute) { { done: true } }
+      let(:new_done_attribute) { { name: 'TaskName', done: true } }
       it 'updates the requested task' do
         request.cookies[JWTSessions.access_cookie] = @tokens[:access]
         request.headers[JWTSessions.csrf_header] = @tokens[:csrf]
         put :update, params: { id: task.id, task: new_done_attribute }
         task.reload
         expect(task.done).to eq new_done_attribute[:done]
+        expect(task.name).to eq new_done_attribute[:name]
       end
       it 'renders a JSON response with the task' do
         request.cookies[JWTSessions.access_cookie] = @tokens[:access]

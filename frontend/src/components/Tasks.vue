@@ -52,12 +52,24 @@
                       v-model="task.done"
                       :name="'checkbox-'+ task.id"
                       :checked="task.done"
-                      @change="updateTaskStatus(task)"
+                      @change="updateTask(task)"
                     ></b-form-checkbox>
                   </b-form>
                 </b-col>
                 <b-col cols="10">
-                  <p>{{ task.name }}</p> <span style="font-weight: bold; margin: 0px 40px"> Deadline: {{ moment(task.deadline).format('DD-MM-YYYY') }} </span>
+                  <div v-show="task != editedTask" @dblclick="editTask(task)">
+                    <p> {{ task.name }} </p>
+                  </div>
+                  <div v-show="task == editedTask">
+                    <b-form-input
+                      style="min-width: 150px"
+                      v-model="task.name"
+                      v-task-focus
+                      @blur="updateTask(task)"
+                      @keyup.enter="updateTask(task)"
+                    ></b-form-input>
+                  </div>
+                  <span style="font-weight: bold; margin: 0px 40px"> Deadline: {{ moment(task.deadline).format('DD-MM-YYYY') }} </span>
                 </b-col>
                 <b-col cols="1" align-self="center">
                   <b-button class="delete-button" @click.prevent="deleteTask(task)">
@@ -77,7 +89,7 @@
                 <b-col cols="1" align-self="center">
                   <b-form inline>
                     <b-form-checkbox
-                      @change="updateTaskStatus(task)"
+                      @change="updateTask(task)"
                       type="checkbox"
                       size="lg"
                       :id="'checkbox-'+ task.id"
@@ -89,7 +101,19 @@
                   </b-form>
                 </b-col>
                 <b-col cols="10">
-                  <p>{{ task.name }}</p> <span style="font-weight: bold; margin: 0px 40px"> Deadline: {{ moment(task.deadline).format('DD-MM-YYYY') }} </span>
+                  <div v-show="task != editedTask" @dblclick="editTask(task)">
+                    <p> {{ task.name }} </p>
+                  </div>
+                  <div v-show="task == editedTask">
+                    <b-form-input
+                      style="min-width: 150px"
+                      v-model="task.name"
+                      v-task-focus
+                      @blur="updateTask(task)"
+                      @keyup.enter="updateTask(task)"
+                    ></b-form-input>
+                  </div>
+                  <span style="font-weight: bold; margin: 0px 40px"> Deadline: {{ moment(task.deadline).format('DD-MM-YYYY') }} </span>
                 </b-col>
                 <b-col cols="1" align-self="center">
                   <b-button class="delete-button-done" @click.prevent="deleteTask(task)">
@@ -115,7 +139,9 @@ export default {
       },
       error: '',
       tasks: [],
-      doneTasks: []
+      doneTasks: [],
+      editedTask: '',
+      nameBeforeUpdate: ''
     }
   },
   created () {
@@ -146,24 +172,38 @@ export default {
           .catch(error => this.setError(error, 'Cannot create new task'))
       }
     },
-    updateTaskStatus (task) {
+    editTask (task) {
+      this.editedTask = task
+      this.nameBeforeUpdate = task.name
+    },
+    updateTask (task) {
       // eslint-disable-next-line no-console
       console.log(task)
       this.$http.secured.patch(`/api/tasks/${task.id}`, {task: task})
         .then(response => {
-          if (this.tasks.includes(task)) {
+          if (this.tasks.includes(task) && task.done === true) {
             // eslint-disable-next-line no-console
             console.log('W taskach')
             this.tasks.splice(this.tasks.indexOf(task), 1)
             this.doneTasks.push(task)
-          } else {
+          } else if(this.doneTasks.includes(task) && task.done === false) {
             // eslint-disable-next-line no-console
             console.log('W zrobionych taskach')
             this.doneTasks.splice(this.doneTasks.indexOf(task), 1)
             this.tasks.push(task)
           }
+          this.editedTask = ''
+          this.error = ''
         })
-        .catch(error => this.setError(error, 'Cannot update this task'))
+        .catch(error => {
+          if (task.name === '') {
+            task.name = this.nameBeforeUpdate
+            // eslint-disable-next-line no-console
+            console.log(this.editedTask.name)
+            task.name = this.editedTask.name
+          }
+          this.setError(error, 'Cannot update this task')
+        })
     },
     deleteTask (task) {
       this.$http.secured.delete(`/api/tasks/${task.id}`)
@@ -179,6 +219,11 @@ export default {
           }
         })
         .catch(error => this.setError(error, 'Cannot delete this task'))
+    }
+  },
+  directives: {
+    'task-focus': function (el) {
+      el.focus()
     }
   }
 }
