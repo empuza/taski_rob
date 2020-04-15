@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     change () {
-      this.$http.plain.patch('/change_password', { password: this.password, password_confirmation: this.password_confirmation, user_id: this.$store.state.currentUser.id, current_password: this.current_password })
+      this.$http.secured.patch('/change_password', { password: this.password, password_confirmation: this.password_confirmation, user_id: this.$store.state.currentUser.id, current_password: this.current_password })
         .then(response => this.changeSuccessful(response))
         .catch(error => this.changeFailed(error))
     },

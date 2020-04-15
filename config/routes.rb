@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get 'me', controller: :users, action: :me
   patch 'change_password', controller: :password_changes, action: :update
 
+  resources :users, only: %i[update]
+
   namespace :api do
     resources :tasks, only: %i[index create update destroy]
   end
