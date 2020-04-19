@@ -12,7 +12,8 @@
   - Adding tasks with deadline,
   - Marking tasks as done,
   - Deleting tasks,
-- Purpose: Learning and fun :)
-- Future functions: 
   - Editing username and email by user,
-  - Adding admin panel
+  - Adding admin panel,
+  - Editin user role by admin,
+- Purpose: Learning and fun :)
+  
