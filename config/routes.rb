@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :users, only: %i[index show] do
+    resources :users, only: %i[index show update] do
       resources :tasks, only: %i[index], controller: 'users/tasks'
     end
   end

@@ -17,7 +17,12 @@
           <td>
             {{ user.id }}
           </td>
-          <td>
+          <td td v-if="showUsersLink(user)">
+            <router-link :to="{ path: '/admin/users/' + user.id }">
+              {{ user.email }}
+            </router-link>
+          </td>
+          <td td v-else>
             {{ user.email }}
           </td>
           <td>
@@ -55,6 +60,9 @@ export default {
   methods: {
     setError (error, text) {
       this.error = (error.response && error.response.data && error.response.data.error) || text
+    },
+    showUsersLink (user) {
+      return this.$store.getters.isAdmin && this.$store.getters.currentUserId !== user.id
     },
     showTasksLink () {
       return this.$store.getters.isAdmin
