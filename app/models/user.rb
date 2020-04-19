@@ -4,6 +4,8 @@ class User < ApplicationRecord
   has_secure_password
   has_many :tasks, dependent: :destroy
 
+  enum role: %i[user manager admin].freeze
+
   validates :username, :password_digest, presence: true
   validates :email,
             format: { with: URI::MailTo::EMAIL_REGEXP },
@@ -11,7 +13,7 @@ class User < ApplicationRecord
             uniqueness: { case_sensitive: false }
 
   def attributes
-    { id: id, username: username, email: email }
+    { id: id, username: username, email: email, role: role }
   end
 
   def generate_password_token!

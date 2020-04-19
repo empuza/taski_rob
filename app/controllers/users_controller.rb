@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def update
     if current_user.update(user_params)
-      render json: current_user, only: %i[id username email]
+      render json: current_user, only: %i[id username email role]
     else
       render json: current_user.errors, status: :unprocessable_entity
     end

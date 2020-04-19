@@ -186,7 +186,7 @@ export default {
             console.log('W taskach')
             this.tasks.splice(this.tasks.indexOf(task), 1)
             this.doneTasks.push(task)
-          } else if(this.doneTasks.includes(task) && task.done === false) {
+          } else if (this.doneTasks.includes(task) && task.done === false) {
             // eslint-disable-next-line no-console
             console.log('W zrobionych taskach')
             this.doneTasks.splice(this.doneTasks.indexOf(task), 1)
