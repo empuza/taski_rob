@@ -8,6 +8,7 @@
           </b-navbar-brand>
           <b-navbar-nav class="ml-auto">
             <b-nav-text right><div v-if="signedIn()">Welcome {{ this.$store.state.currentUser.username }}</div></b-nav-text>
+            <b-nav-item right><router-link to="/admin/users" v-if="showAdminLink()">Admin</router-link></b-nav-item>
             <b-nav-item right><router-link to="/tasks" v-if="signedIn()">Tasks</router-link></b-nav-item>
             <b-nav-item-dropdown
               id="settings-dropdown"
@@ -46,6 +47,9 @@ export default {
           this.$router.replace('/')
         })
         .catch(error => this.setError(error, 'Cannot sign out'))
+    },
+    showAdminLink () {
+      return this.$store.getters.isAdmin || this.$store.getters.isManager
     }
   }
 }

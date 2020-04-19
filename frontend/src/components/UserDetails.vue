@@ -56,7 +56,7 @@ export default {
       this.id = this.$store.state.currentUser.id
       this.username = this.$store.state.currentUser.username
       this.email = this.$store.state.currentUser.email
-  }
+    }
   },
   methods: {
     update () {

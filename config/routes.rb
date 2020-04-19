@@ -26,4 +26,10 @@ Rails.application.routes.draw do
       patch ':token', action: :update
     end
   end
+
+  namespace :admin do
+    resources :users, only: %i[index show] do
+      resources :tasks, only: %i[index], controller: 'users/tasks'
+    end
+  end
 end

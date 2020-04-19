@@ -7,7 +7,9 @@ import ForgotPassword from '@/components/ForgotPassword'
 import ResetPassword from '@/components/ResetPassword'
 import Activation from '@/components/Activation'
 import ChangePassword from '@/components/ChangePassword'
-import UserDetails from "../components/UserDetails";
+import UserDetails from '@/components/UserDetails'
+import UsersList from '@/components/admin/users/List'
+import UserTasksList from '@/components/admin/users/tasks/List'
 
 Vue.use(Router)
 
@@ -53,6 +55,16 @@ export default new Router({
       path: '/user_details',
       name: 'UserDetails',
       component: UserDetails
+    },
+    {
+      path: '/admin/users',
+      name: 'UsersList',
+      component: UsersList
+    },
+    {
+      path: '/admin/users/:id/tasks',
+      name: 'UserTasksList',
+      component: UserTasksList
     }
   ]
 })
