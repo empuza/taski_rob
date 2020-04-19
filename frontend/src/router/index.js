@@ -10,6 +10,7 @@ import ChangePassword from '@/components/ChangePassword'
 import UserDetails from '@/components/UserDetails'
 import UsersList from '@/components/admin/users/List'
 import UserTasksList from '@/components/admin/users/tasks/List'
+import UserEdit from '@/components/admin/users/Edit'
 
 Vue.use(Router)
 
@@ -65,6 +66,11 @@ export default new Router({
       path: '/admin/users/:id/tasks',
       name: 'UserTasksList',
       component: UserTasksList
+    },
+    {
+      path: '/admin/users/:id',
+      name: 'UserEdit',
+      component: UserEdit
     }
   ]
 })
